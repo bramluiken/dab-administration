@@ -5,6 +5,7 @@ namespace App\Abstracts;
 use App\Factories\FormFieldFactory;
 
 abstract class FormAbstract {
+    protected FormFieldFactory $formFieldFactory;
     protected $fields = [];
     protected $action;
     protected $method;
@@ -16,13 +17,16 @@ abstract class FormAbstract {
         $this->method = $method;
         $this->tableName = $tableName;
         $this->db = $db;
+
+        $this->formFieldFactory = new FormFieldFactory();
+
         $this->defineFields();
     }
 
     abstract protected function defineFields();
 
-    protected function addField($type, $name, $label, $optionsOrAttributes = [], $attributes = []) {
-        $this->fields[] = FormFieldFactory::create($type, [$name, $label, $optionsOrAttributes, $attributes]);
+    protected function addField($type, $name, $label, $attributes = []) {
+        $this->fields[] = $this->formFieldFactory->create($type, [$name, $label, $attributes]);
     }
 
     public function render() {

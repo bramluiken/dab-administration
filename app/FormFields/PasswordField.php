@@ -10,6 +10,15 @@ class PasswordField extends FormFieldAbstract {
         foreach ($this->attributes as $key => $value) {
             $attrs .= " $key=\"$value\"";
         }
-        return "<label for=\"{$this->name}\">{$this->label}</label><input type=\"password\" name=\"{$this->name}\" id=\"{$this->name}\"$attrs>";
+
+        $errmsg = !empty($this->error)
+            ? "<div class=\"form-error\">{$this->error}</div>"
+            : '';
+        
+        return "<div class=\"form-group\">
+            <label for=\"{$this->name}\">{$this->label}</label>
+            <input type=\"password\" name=\"{$this->name}\" id=\"{$this->name}\"$attrs>
+            $errmsg
+        </div>";
     }
 }

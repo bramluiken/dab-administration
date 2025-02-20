@@ -7,6 +7,7 @@ use Core\Error;
 use Core\ErrorHandler;
 use App\Tools\SimpleTemplater;
 use App\Tools\SimpleMarkdownHtml;
+use App\Controllers\FormController;
 
 class HtmlController extends BaseController {
     // The File class
@@ -32,14 +33,13 @@ class HtmlController extends BaseController {
         $this->templater->setTemplate($this->file->read('app/assets/template.html'));
 
         try {
-            $this->delegateRoute('/!', [$this, 'displayReadme'], $request);
-            $this->delegateRoute('/license!', [$this, 'displayLicense'], $request);
+            $this->delegateRoute('/form/{form}', FormController::class, $request);
             
             $path = $request['route'];
             throw new Error(
                 'user',
-                "Asset not found",
-                "Asset {$path} not found",
+                "Page not found",
+                "Page {$path} not found",
                 ['path' => $path],
                 404
             );
